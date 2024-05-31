@@ -1,6 +1,7 @@
 package com.system.ms.schoolMs.controller;
 
 import com.system.ms.schoolMs.dto.StudentDto;
+import com.system.ms.schoolMs.dto.paginated.PaginatedResponseItemDto;
 import com.system.ms.schoolMs.entity.Student;
 import com.system.ms.schoolMs.service.StudentService;
 import com.system.ms.schoolMs.util.StandardRespone;
@@ -9,19 +10,44 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/student")
 @CrossOrigin
 public class StudentController {
     @Autowired
     private StudentService studentService;
-    @PostMapping("/save")
+    @PostMapping("/saveStudent")
     public ResponseEntity<StandardRespone<StudentDto>> saveStudent(@RequestBody StudentDto studentDto){
         StudentDto saveStudent=studentService.saveStudent(studentDto);
         return  new ResponseEntity<>(
                 new StandardRespone<>(201,"Sucess",saveStudent), HttpStatus.CREATED
                 );
     }
+   @PutMapping("/updateStudent")
+    public ResponseEntity<StandardRespone<StudentDto>>updateStudent(@RequestBody StudentDto studentDto){
+        StudentDto updateStudent=studentService.updateStudent(studentDto);
+        return  new ResponseEntity<>(
+                new StandardRespone<>(200 ,"sucess",updateStudent),HttpStatus.OK
+        );
+   }
+   @GetMapping (value = "/veiwAllStudents",params = {"page","size"})
 
+    public ResponseEntity<StandardRespone<PaginatedResponseItemDto>>veiwAllStudent(@RequestParam (value = "page") int page,
+                                                                           @RequestParam(value = "size")int size){
+      PaginatedResponseItemDto veiwAllStudent=studentService.viewAllStudent(page,size);
+       return  new ResponseEntity<>(
+               new StandardRespone<>(200 ,"sucess",veiwAllStudent),HttpStatus.OK
+       );
+   }
+
+   @DeleteMapping("/deleteStudent/{id}")
+    public ResponseEntity<StandardRespone<String>> deleteStudent(@PathVariable(value = "id") long studentId){
+        String deleded =studentService.deleteStudentById(studentId);
+        return  new ResponseEntity<>
+                (new StandardRespone<>(200,"sucess",deleded),HttpStatus.OK);
+
+   }
 
 }

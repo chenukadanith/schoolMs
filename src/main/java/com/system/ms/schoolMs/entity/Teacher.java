@@ -9,8 +9,8 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@Table(name="students")
-public class Student    {
+@Table(name="teachers")
+public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 

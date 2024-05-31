@@ -1,17 +1,13 @@
 package com.system.ms.schoolMs.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class StudentDto {
+public class TeacherDto {
     private Long id;
     private String firstName;
     private String lastName;
