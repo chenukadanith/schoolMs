@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class TeacherColtroller {
     @Autowired
     TeacherService teacherService;
+
     @PostMapping("/saveTeacher")
     public ResponseEntity<StandardRespone<TeacherDto>> saveStudent(@RequestBody TeacherDto teacherDto){
         TeacherDto saveTeacher=teacherService.saveTeacher(teacherDto);
