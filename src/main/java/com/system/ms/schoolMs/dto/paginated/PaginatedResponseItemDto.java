@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PaginatedResponseItemDto {
-    List<StudentDto> list;
+public class PaginatedResponseItemDto<T> {
+    List<T> list;
     private long totalItems;
     private int currentPage;
     private int totalPages;

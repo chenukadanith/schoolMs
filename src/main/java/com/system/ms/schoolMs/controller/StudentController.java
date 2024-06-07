@@ -34,7 +34,7 @@ public class StudentController {
    }
    @GetMapping (value = "/veiwAllStudents",params = {"page","size"})
 
-    public ResponseEntity<StandardRespone<PaginatedResponseItemDto>>veiwAllStudent(@RequestParam (value = "page") int page,
+    public ResponseEntity<StandardRespone<PaginatedResponseItemDto<StudentDto>>>veiwAllStudent(@RequestParam (value = "page") int page,
                                                                            @RequestParam(value = "size")int size){
       PaginatedResponseItemDto veiwAllStudent=studentService.viewAllStudent(page,size);
        return  new ResponseEntity<>(
