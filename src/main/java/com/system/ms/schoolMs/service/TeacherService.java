@@ -12,4 +12,12 @@ public interface TeacherService {
 
     TeacherDto saveTeacher(TeacherDto teacherDto);
    PaginatedResponseItemDto getAllTeachers(int page, int size);
+
+    TeacherDto updateTeacher(TeacherDto teacherDto);
+
+
+
+    String deleteTeacherById(Long id);
+
+    TeacherDto getTeacherById(Long id);
 }

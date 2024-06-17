@@ -18,4 +18,6 @@ public interface StudentService {
 
 
     String deleteStudentById(Long studentId);
+
+    StudentDto getStudentById(Long id);
 }

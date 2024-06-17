@@ -34,7 +34,7 @@ public class StudentController {
    }
    @GetMapping (value = "/veiwAllStudents",params = {"page","size"})
 
-    public ResponseEntity<StandardRespone<PaginatedResponseItemDto<StudentDto>>>veiwAllStudent(@RequestParam (value = "page") int page,
+    public ResponseEntity<StandardRespone<PaginatedResponseItemDto<StudentDto>>> veiwAllStudent(@RequestParam (value = "page") int page,
                                                                            @RequestParam(value = "size")int size){
       PaginatedResponseItemDto veiwAllStudent=studentService.viewAllStudent(page,size);
        return  new ResponseEntity<>(
@@ -42,11 +42,17 @@ public class StudentController {
        );
    }
 
+   @GetMapping(value = "/getStudentById",params = {"id"})
+   public ResponseEntity<StandardRespone<StudentDto>>getStudentById(@RequestParam(value = "id")Long id){
+        StudentDto student=studentService.getStudentById(id);
+        return new ResponseEntity<>(new StandardRespone<>(200,"sucess",student),HttpStatus.OK);
+   }
+
    @DeleteMapping("/deleteStudent/{id}")
     public ResponseEntity<StandardRespone<String>> deleteStudent(@PathVariable(value = "id") long studentId){
-        String deleded =studentService.deleteStudentById(studentId);
+        String deletded =studentService.deleteStudentById(studentId);
         return  new ResponseEntity<>
-                (new StandardRespone<>(200,"sucess",deleded),HttpStatus.OK);
+                (new StandardRespone<>(200,"sucess",deletded),HttpStatus.OK);
 
    }
 

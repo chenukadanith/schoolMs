@@ -85,6 +85,15 @@ else{
             }
         }
 
+    @Override
+    public StudentDto getStudentById(Long id) {
+        if(!studentRepo.existsById(id)){
+            throw new RuntimeException("no student found that id");
+        }else {
+            Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("No student found with that ID"));
+            return modelMapper.map(student,StudentDto.class);
+        }
+    }
 
 
 }
