@@ -18,4 +18,6 @@ public class StudentDto {
     private String address;
     private String email;
     private String phoneNumber;
+    private String username;
+    private String password;
 }

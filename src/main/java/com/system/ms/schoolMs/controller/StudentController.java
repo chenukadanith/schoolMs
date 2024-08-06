@@ -3,6 +3,7 @@ package com.system.ms.schoolMs.controller;
 import com.system.ms.schoolMs.dto.StudentDto;
 import com.system.ms.schoolMs.dto.paginated.PaginatedResponseItemDto;
 import com.system.ms.schoolMs.entity.Student;
+import com.system.ms.schoolMs.exception.StudentNotFoundException;
 import com.system.ms.schoolMs.service.StudentService;
 import com.system.ms.schoolMs.util.StandardRespone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,17 @@ public class StudentController {
                 new StandardRespone<>(201,"Sucess",saveStudent), HttpStatus.CREATED
                 );
     }
+    //
+    @PostMapping("/auth")
+    public ResponseEntity<StandardRespone<StudentDto>> login(@RequestBody StudentDto studentDto){
+        try{
+            StudentDto student = studentService.checkStudent(studentDto.getUsername(), studentDto.getPassword());
+            return new ResponseEntity<>(new StandardRespone<>(200,"Success",student),HttpStatus.CREATED);
+        }catch (StudentNotFoundException e){
+            return new ResponseEntity<>(new StandardRespone<>(401,e.getMessage(),studentDto),HttpStatus.CREATED);
+        }
+    }
+    //
    @PutMapping("/updateStudent")
     public ResponseEntity<StandardRespone<StudentDto>>updateStudent(@RequestBody StudentDto studentDto){
         StudentDto updateStudent=studentService.updateStudent(studentDto);
@@ -55,5 +67,6 @@ public class StudentController {
                 (new StandardRespone<>(200,"sucess",deletded),HttpStatus.OK);
 
    }
+
 
 }

@@ -2,7 +2,10 @@ package com.system.ms.schoolMs.service.impl;
 
 import com.system.ms.schoolMs.dto.StudentDto;
 import com.system.ms.schoolMs.dto.paginated.PaginatedResponseItemDto;
+import com.system.ms.schoolMs.entity.Credentials;
 import com.system.ms.schoolMs.entity.Student;
+import com.system.ms.schoolMs.exception.StudentNotFoundException;
+import com.system.ms.schoolMs.repo.CredentialsRepo;
 import com.system.ms.schoolMs.repo.StudentRepo;
 import com.system.ms.schoolMs.service.StudentService;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,9 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -25,6 +27,12 @@ public class StudentServiceImpl implements StudentService {
     private ModelMapper modelMapper;
     @Autowired
     private StudentRepo studentRepo;
+    private CredentialsRepo credentialsRepo;
+
+    @Autowired
+    private void setCredentialsRepo(CredentialsRepo credentialsRepo) {
+        this.credentialsRepo = credentialsRepo;
+    }
 
     @Override
     public StudentDto saveStudent(StudentDto studentDto) {
@@ -35,6 +43,15 @@ public class StudentServiceImpl implements StudentService {
         }
 
         Student savedStudent = studentRepo.save(student);
+
+        credentialsRepo.save(
+                Credentials.builder()
+                        .student(savedStudent)
+                        .password(studentDto.getPassword())
+                        .username(studentDto.getUsername())
+                        .build()
+        );
+
         StudentDto savedStudentDto = modelMapper.map(savedStudent, StudentDto.class);
         return savedStudentDto;
     }
@@ -74,26 +91,34 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-
     @Override
     public String deleteStudentById(Long studentId) {
-        if(studentRepo.existsById(studentId)){
-studentRepo.deleteById(studentId);
-return "deleted Successfull";}
-else{
-    throw new RuntimeException("No customer found that id");
-            }
+        if (studentRepo.existsById(studentId)) {
+            studentRepo.deleteById(studentId);
+            return "deleted Successfull";
+        } else {
+            throw new RuntimeException("No customer found that id");
         }
+    }
 
     @Override
     public StudentDto getStudentById(Long id) {
-        if(!studentRepo.existsById(id)){
+        if (!studentRepo.existsById(id)) {
             throw new RuntimeException("no student found that id");
-        }else {
+        } else {
             Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("No student found with that ID"));
-            return modelMapper.map(student,StudentDto.class);
+            return modelMapper.map(student, StudentDto.class);
         }
     }
+    //
+    public StudentDto checkStudent(String username, String password){
+        Optional<Credentials> credentialsOptional = credentialsRepo.findByUsernameAndPassword(username, password);
+        if(credentialsOptional.isPresent()){
+            return modelMapper.map(credentialsOptional.get().getStudent(), StudentDto.class);
+        }
+        throw new StudentNotFoundException("Student not found! Invalid credentials.");
+    }
+    //
 
 
 }

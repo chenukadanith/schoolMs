@@ -2,6 +2,7 @@ package com.system.ms.schoolMs.service;
 
 import com.system.ms.schoolMs.dto.StudentDto;
 import com.system.ms.schoolMs.dto.paginated.PaginatedResponseItemDto;
+import com.system.ms.schoolMs.entity.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +15,9 @@ public interface StudentService {
 
     PaginatedResponseItemDto viewAllStudent(int page, int size);
 
-
-
+    //
+    StudentDto checkStudent(String username, String password);
+    //
 
     String deleteStudentById(Long studentId);
 

@@ -26,4 +26,5 @@ public class Student    {
     private String email;
     @Column(name = "poneNumber", nullable = false )
     private String phoneNumber;
+    //
 }
