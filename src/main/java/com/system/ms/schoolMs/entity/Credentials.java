@@ -16,8 +16,10 @@ public class Credentials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Student student;
+
     private String username;
     private String password;
 }
