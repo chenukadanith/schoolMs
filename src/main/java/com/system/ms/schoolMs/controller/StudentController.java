@@ -30,7 +30,7 @@ public class StudentController {
     @PostMapping("/auth")
     public ResponseEntity<StandardRespone<StudentDto>> login(@RequestBody StudentDto studentDto){
         try{
-            StudentDto student = studentService.checkStudent(studentDto.getUsername(), studentDto.getPassword());
+            StudentDto student = studentService.checkShtudent(studentDto.getUsername(), studentDto.getPassword());
             return new ResponseEntity<>(new StandardRespone<>(200,"Success",student),HttpStatus.CREATED);
         }catch (StudentNotFoundException e){
             return new ResponseEntity<>(new StandardRespone<>(401,e.getMessage(),studentDto),HttpStatus.CREATED);

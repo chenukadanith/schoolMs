@@ -30,6 +30,6 @@ public class Student    {
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "student", cascade = CascadeType.DETACH, orphanRemoval = true)
     private Credentials credentials;
 }
